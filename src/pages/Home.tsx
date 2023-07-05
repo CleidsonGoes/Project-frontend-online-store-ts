@@ -58,15 +58,14 @@ function Home() {
       ) : (
         <>
           {products.length === 0 && (
-            <p>Nenhum produto foi encontrado</p>
+            <p data-testid="home-initial-message">
+              Digite algum termo de pesquisa ou escolha uma categoria.
+            </p>
           )}
           {products.length > 0 && (
             <div>
               {products.map((product) => (
-                <div
-                  key={ product.id }
-                  data-testid="product"
-                >
+                <div key={ product.id } data-testid="product">
                   <h3>{product.title}</h3>
                   <img src={ product.thumbnail } alt={ product.title } />
                   <p>{`R$ ${product.price}`}</p>
