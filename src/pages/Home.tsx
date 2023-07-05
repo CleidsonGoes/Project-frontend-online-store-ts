@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
+import ProductList from '../components/ProductList';
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -8,7 +9,10 @@ function Home() {
     <div>
       <SearchBar setSearchTerm={ setSearchTerm } />
       {searchTerm ? (
-        <p>Lista de produtos</p>
+        <ProductList
+          searchTerm={ searchTerm }
+          data-testid="product"
+        />
       ) : (
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
