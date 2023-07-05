@@ -1,5 +1,6 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import CategoryList from '../components/CategoryList';
 
 interface Product {
   id: string;
@@ -40,6 +41,7 @@ function Home() {
 
   return (
     <div>
+      <CategoryList />
       <form onSubmit={ handleSearch }>
         <input
           data-testid="query-input"
@@ -52,7 +54,6 @@ function Home() {
           Buscar
         </button>
       </form>
-
       {loading ? (
         <p>Carregando...</p>
       ) : (
