@@ -17,10 +17,10 @@ function ProductCardCart({
           <img src={ item.thumbnail } alt={ item.title } />
           <p>{`R$ ${item.price}`}</p>
           <p data-testid="shopping-cart-product-quantity">
-            {`Quantidade: ${item.quantityInCart}`}
+            {`Quantidade: ${item.quantityInCart ? item.quantityInCart : 1}`}
           </p>
           <button
-            data-testid="product-remove-from-cart"
+            data-testid="remove-product"
             onClick={ () => {
               removeCartItem(item);
               setQuantityUpdate(!quantityUpdate);
@@ -29,6 +29,7 @@ function ProductCardCart({
             Remover do carrinho
           </button>
           <button
+            data-testid="product-increase-quantity"
             onClick={ () => {
               cartQuantityManagement('+', item);
               setQuantityUpdate(!quantityUpdate);
@@ -37,6 +38,7 @@ function ProductCardCart({
             +
           </button>
           <button
+            data-testid="product-decrease-quantity"
             onClick={ () => {
               cartQuantityManagement('-', item);
               setQuantityUpdate(!quantityUpdate);

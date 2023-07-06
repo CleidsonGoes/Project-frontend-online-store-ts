@@ -21,11 +21,9 @@ export function addCartItem(item: Product) {
   if (cartItems.some((product: Product) => product.id === item.id)) {
     changeLocalStorage(cartItems);
   } else {
-    const mapItems = cartItems.map((product: Product) => {
-      if (product.quantityInCart === undefined) return { ...product, quantityInCart: 0 };
-      return { ...product };
-    });
-    const newCartItems = [...mapItems, item];
+    const newItem = item;
+    item.quantityInCart = 1;
+    const newCartItems = [...cartItems, newItem];
     changeLocalStorage(newCartItems);
   }
 }
@@ -47,14 +45,20 @@ export function cartQuantityManagement(sign: string, item: Product) {
   const cartItems = recoverLocalStorage();
 
   if (sign === '+') {
-    const refItem = cartItems.find((product: Product) => product.id === item.id);
-    refItem.quantityInCart += 1;
-    removeCartItem(refItem);
-    addCartItem(refItem);
+    const refItem = cartItems.findIndex((product: Product) => product.id === item.id);
+    if (cartItems[refItem].quantityInCart === cartItems[refItem].available_quantity) {
+      changeLocalStorage(cartItems);
+    } else {
+      cartItems[refItem].quantityInCart += 1;
+      changeLocalStorage(cartItems);
+    }
   } else if (sign === '-') {
-    const refItem = cartItems.find((product: Product) => product.id === item.id);
-    refItem.quantityInCart -= 1;
-    removeCartItem(refItem);
-    addCartItem(refItem);
+    const refItem = cartItems.findIndex((product: Product) => product.id === item.id);
+    if (cartItems[refItem].quantityInCart === 1) {
+      changeLocalStorage(cartItems);
+    } else {
+      cartItems[refItem].quantityInCart -= 1;
+      changeLocalStorage(cartItems);
+    }
   }
 }
