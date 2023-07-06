@@ -25,7 +25,7 @@ function ShoppingCartPage() {
     <div>
       <h1>Seu carrinho de compras</h1>
       {cartItems.length === 0 ? (
-        <p>Seu carrinho está vazio</p>
+        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       ) : (
         <ul>
           {cartItems.map((item: Product) => (
