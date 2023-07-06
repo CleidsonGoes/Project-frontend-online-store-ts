@@ -25,6 +25,7 @@ function Home() {
       setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setLoading(false);
     }
   };
 
@@ -56,28 +57,23 @@ function Home() {
       {loading ? (
         <p>Carregando...</p>
       ) : (
-        <>
-          {products.length === 0 && (
+        <div>
+          {products.length === 0 ? (
             <p data-testid="home-initial-message">
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>
-          )}
-          {products.length > 0 && (
+          ) : (
             <div>
               {products.map((product) => (
                 <div key={ product.id } data-testid="product">
-                  <h3 data-testid="product">{product.title}</h3>
-                  <img
-                    src={ product.thumbnail }
-                    alt={ product.title }
-                    data-testid="product"
-                  />
-                  <p data-testid="product">{`R$ ${product.price}`}</p>
+                  <h3>{product.title}</h3>
+                  <img src={ product.thumbnail } alt={ product.title } />
+                  <p>{`R$ ${product.price}`}</p>
                 </div>
               ))}
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );
