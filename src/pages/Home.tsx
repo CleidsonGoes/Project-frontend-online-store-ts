@@ -25,7 +25,6 @@ function Home() {
       setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
-      setLoading(false);
     }
   };
 
@@ -41,7 +40,7 @@ function Home() {
 
   return (
     <div>
-      <CategoryList setProductsState={ setProducts }/>
+      <CategoryList searchTerm={ searchTerm } setProductsState={ setProducts } />
       <form onSubmit={ handleSearch }>
         <input
           data-testid="query-input"
