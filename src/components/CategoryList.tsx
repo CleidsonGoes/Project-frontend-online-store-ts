@@ -45,7 +45,6 @@ function CategoryList({ searchTerm, setProductsState }: CategoryListProps) {
       <h1>Categories</h1>
       {categories.map((category: CategoriesProps) => (
         <label htmlFor={ category.id } key={ category.id } data-testid="category">
-          {category.name}
           <input
             type="radio"
             name="category"
@@ -53,6 +52,7 @@ function CategoryList({ searchTerm, setProductsState }: CategoryListProps) {
             checked={ category.id === selectedCategoryId }
             onChange={ () => handleCategoryChange(category.id) }
           />
+          {category.name}
         </label>
       ))}
     </div>
