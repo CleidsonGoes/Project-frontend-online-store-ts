@@ -41,7 +41,7 @@ function Home() {
 
   return (
     <div>
-      <CategoryList />
+      <CategoryList searchTerm={ searchTerm } setProductsState={ setProducts } />
       <form onSubmit={ handleSearch }>
         <input
           data-testid="query-input"
@@ -57,13 +57,12 @@ function Home() {
       {loading ? (
         <p>Carregando...</p>
       ) : (
-        <>
-          {products.length === 0 && (
+        <div>
+          {products.length === 0 ? (
             <p data-testid="home-initial-message">
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>
-          )}
-          {products.length > 0 && (
+          ) : (
             <div>
               {products.map((product) => (
                 <div key={ product.id } data-testid="product">
@@ -74,7 +73,7 @@ function Home() {
               ))}
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );
