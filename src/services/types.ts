@@ -3,6 +3,7 @@ export interface Product {
   title: string;
   price: number;
   thumbnail: string;
+  quantityInCart: number | undefined;
 }
 
 export interface AppMasterProps {

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { addCartItem } from '../services/cartManagement';
+import { Product } from '../services/types';
 
 type ProductsCardHomeProps = {
-  products: any[];
+  products: Product[];
 };
 
 function ProductCardHome({ products }: ProductsCardHomeProps) {
