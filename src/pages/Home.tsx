@@ -5,10 +5,9 @@ import { AppMasterProps } from '../services/types';
 
 function Home({
   searchTerm,
-  products,
+  products = [],
   setProducts,
-  loading,
-
+  loading = false,
 }: AppMasterProps) {
   useEffect(() => {
     if (!searchTerm) {
@@ -23,11 +22,13 @@ function Home({
         <p>Carregando...</p>
       ) : (
         <div>
-          { products.length === 0 ? (
+          {products.length === 0 ? (
             <p data-testid="home-initial-message">
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>
-          ) : <ProductCardHome products={ products } /> }
+          ) : (
+            <ProductCardHome products={ products } />
+          )}
         </div>
       )}
     </div>

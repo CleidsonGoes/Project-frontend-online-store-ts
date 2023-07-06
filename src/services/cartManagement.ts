@@ -18,14 +18,18 @@ export function changeLocalStorage(cartArray: Product[]) {
 // FUNÇÃO PARA ADICIONAR ITEM AO CARRRINHO DE COMPRAS
 export function addCartItem(item: Product) {
   const cartItems = recoverLocalStorage();
-  const newCartItems = [...cartItems, item];
-  changeLocalStorage(newCartItems);
+  if (cartItems.some((product: Product) => product.id === item.id)) {
+    changeLocalStorage(cartItems);
+  } else {
+    const newCartItems = [...cartItems, item];
+    changeLocalStorage(newCartItems);
+  }
 }
 
 // FUNÇÃO PARA REMOVER ITEM DO CARRRINHO DE COMPRAS
 export function removeCartItem(item: Product) {
   const cartItems = recoverLocalStorage();
-  const newCartItems = cartItems.filter((product: Product) => product.id === item.id);
+  const newCartItems = cartItems.filter((product: Product) => product.id !== item.id);
   changeLocalStorage(newCartItems);
 }
 

@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
+import { addCartItem } from '../services/cartManagement';
 
 interface Attribute {
   id: string;
@@ -47,6 +48,10 @@ function ProductDetails() {
     return <p>Nenhum produto encontrado</p>;
   }
 
+  const handleAddToCart = (item: any) => {
+    addCartItem(item);
+  };
+
   return (
     <div>
       <h1 data-testid="product-detail-name">{product.title}</h1>
@@ -56,18 +61,20 @@ function ProductDetails() {
         data-testid="product-detail-image"
       />
       <p data-testid="product-detail-price">
-        Preço: R$
-        {' '}
-        {product.price}
+        {`Preço: R$ ${product.price}`}
       </p>
+      <button
+        data-testid="product-detail-add-to-cart"
+        onClick={ () => handleAddToCart(product) }
+      >
+        Adicionar ao Carrinho
+      </button>
       <h2>Especificações técnicas:</h2>
       <ul>
         {product.attributes.map((attribute) => (
           <li key={ attribute.id }>
             <strong>
               {attribute.name}
-              :
-              {' '}
             </strong>
             {attribute.value_name}
           </li>
