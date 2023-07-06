@@ -41,7 +41,7 @@ function Home() {
 
   return (
     <div>
-      <CategoryList />
+      <CategoryList setProductsState={ setProducts }/>
       <form onSubmit={ handleSearch }>
         <input
           data-testid="query-input"
@@ -67,9 +67,13 @@ function Home() {
             <div>
               {products.map((product) => (
                 <div key={ product.id } data-testid="product">
-                  <h3>{product.title}</h3>
-                  <img src={ product.thumbnail } alt={ product.title } />
-                  <p>{`R$ ${product.price}`}</p>
+                  <h3 data-testid="product">{product.title}</h3>
+                  <img
+                    src={ product.thumbnail }
+                    alt={ product.title }
+                    data-testid="product"
+                  />
+                  <p data-testid="product">{`R$ ${product.price}`}</p>
                 </div>
               ))}
             </div>

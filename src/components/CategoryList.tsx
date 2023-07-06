@@ -6,12 +6,16 @@ type CategoriesProps = {
   name: string;
 };
 
-function CategoryList() {
+function CategoryList({setProductsState}) {
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
 
   const getCategoryList = async () => {
     const fetchApi = await api.getCategories();
     setCategories(fetchApi);
+  };
+  const filterCategoryList = async (id:string) => {
+    const fetchApi = await api.itemCategoryId(id);
+    setProductsState([fetchApi]);
   };
 
   useEffect(() => {
@@ -25,7 +29,12 @@ function CategoryList() {
         return (
           <label htmlFor={ category.id } key={ category.id } data-testid="category">
             { category.name }
-            <input type="radio" name="category" id={ category.id } />
+            <input
+              type="radio"
+              name="category"
+              id={ category.id }
+              onClick={ () => filterCategoryList(category.id) }
+            />
           </label>
         );
       })}
