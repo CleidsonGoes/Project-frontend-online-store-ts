@@ -14,31 +14,20 @@ interface CategoryListProps {
 function CategoryList({ searchTerm, setProductsState }: CategoryListProps) {
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const getCategoryList = async () => {
-    try {
-      setLoading(true);
-      const fetchApi = await api.getCategories();
-      setCategories(fetchApi);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setLoading(false);
-    }
+    const fetchApi = await api.getCategories();
+    setCategories(fetchApi);
   };
 
   const filterCategoryList = async (id: string) => {
     try {
-      setLoading(true);
       const response = await api.getProductsFromCategoryAndQuery(id, searchTerm);
       const fetchedProducts = response.results;
       setProductsState(fetchedProducts);
       setSelectedCategoryId(id);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
-      setLoading(false);
     }
   };
 
@@ -46,25 +35,26 @@ function CategoryList({ searchTerm, setProductsState }: CategoryListProps) {
     getCategoryList();
   }, []);
 
+  const handleCategoryChange = (id: string) => {
+    setSelectedCategoryId(id);
+    filterCategoryList(id);
+  };
+
   return (
     <div>
       <h1>Categories</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        categories.map((category: CategoriesProps) => (
-          <label htmlFor={ category.id } key={ category.id } data-testid="category">
-            {category.name}
-            <input
-              type="radio"
-              name="category"
-              id={ category.id }
-              onClick={ () => filterCategoryList(category.id) }
-              checked={ category.id === selectedCategoryId }
-            />
-          </label>
-        ))
-      )}
+      {categories.map((category: CategoriesProps) => (
+        <label htmlFor={ category.id } key={ category.id } data-testid="category">
+          {category.name}
+          <input
+            type="radio"
+            name="category"
+            id={ category.id }
+            checked={ category.id === selectedCategoryId }
+            onChange={ () => handleCategoryChange(category.id) }
+          />
+        </label>
+      ))}
     </div>
   );
 }
