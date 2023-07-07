@@ -1,17 +1,8 @@
 import { useEffect, useState } from 'react';
 import * as api from '../services/api';
+import { CategoriesProps, CategoryListProps } from '../services/types';
 
-type CategoriesProps = {
-  id: string;
-  name: string;
-};
-
-interface CategoryListProps {
-  searchTerm: string;
-  setProductsState: (products: any) => void;
-}
-
-function CategoryList({ searchTerm, setProductsState }: CategoryListProps) {
+function CategoryList({ searchTerm, setProductsState, setLoading }: CategoryListProps) {
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
 
@@ -22,10 +13,12 @@ function CategoryList({ searchTerm, setProductsState }: CategoryListProps) {
 
   const filterCategoryList = async (id: string) => {
     try {
+      setLoading(true);
       const response = await api.getProductsFromCategoryAndQuery(id, searchTerm);
       const fetchedProducts = response.results;
       setProductsState(fetchedProducts);
       setSelectedCategoryId(id);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
