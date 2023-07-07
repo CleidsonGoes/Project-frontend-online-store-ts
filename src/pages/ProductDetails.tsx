@@ -2,6 +2,11 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
 import { addCartItem } from '../services/cartManagement';
+import FreeShipping from '../components/FreeShipping';
+
+interface ProductDetailsPageProps {
+  refreshCartNumber: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 interface Attribute {
   id: string;
@@ -15,9 +20,12 @@ interface Product {
   price: number;
   thumbnail: string;
   attributes: Attribute[];
+  shipping: {
+    free_shipping: boolean;
+  };
 }
 
-function ProductDetails() {
+function ProductDetails({ refreshCartNumber }: ProductDetailsPageProps) {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -27,7 +35,6 @@ function ProductDetails() {
       try {
         if (id) {
           const response = await getProductById(id);
-          console.log(response);
           setProduct(response);
           setLoading(false);
         }
@@ -50,6 +57,7 @@ function ProductDetails() {
 
   const handleAddToCart = (item: any) => {
     addCartItem(item);
+    refreshCartNumber((prev) => !prev);
   };
 
   return (
@@ -63,6 +71,7 @@ function ProductDetails() {
       <p data-testid="product-detail-price">
         {`Preço: R$ ${product.price}`}
       </p>
+      { product.shipping.free_shipping && <FreeShipping /> }
       <button
         data-testid="product-detail-add-to-cart"
         onClick={ () => handleAddToCart(product) }

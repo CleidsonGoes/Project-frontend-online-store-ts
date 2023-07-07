@@ -19,6 +19,8 @@ export function changeLocalStorage(cartArray: Product[]) {
 export function addCartItem(item: Product) {
   const cartItems = recoverLocalStorage();
   if (cartItems.some((product: Product) => product.id === item.id)) {
+    const refItem = cartItems.findIndex((product: Product) => product.id === item.id);
+    cartItems[refItem].quantityInCart += 1;
     changeLocalStorage(cartItems);
   } else {
     const newItem = item;
@@ -61,4 +63,16 @@ export function cartQuantityManagement(sign: string, item: Product) {
       changeLocalStorage(cartItems);
     }
   }
+}
+
+export function recoverCartQuantity() {
+  const cartItems = recoverLocalStorage();
+  const mapCart = cartItems.map((product: Product) => {
+    return product.quantityInCart;
+  });
+  const reduceCart = mapCart.reduce((acc: number, curr: number) => {
+    return acc + curr;
+  }, 0);
+
+  return reduceCart;
 }

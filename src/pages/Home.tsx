@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import CategoryList from '../components/CategoryList';
 import ProductCardHome from '../components/ProductCardHome';
-import { AppMasterProps } from '../services/types';
+import { HomeProps } from '../services/types';
 
 function Home({
   searchTerm,
   products = [],
   setProducts,
   loading = false,
-}: AppMasterProps) {
+  setLoading,
+  refreshCartNumber,
+}: HomeProps) {
   useEffect(() => {
     if (!searchTerm) {
       setProducts([]);
@@ -17,7 +19,11 @@ function Home({
 
   return (
     <div>
-      <CategoryList searchTerm={ searchTerm } setProductsState={ setProducts } />
+      <CategoryList
+        searchTerm={ searchTerm }
+        setProductsState={ setProducts }
+        setLoading={ setLoading }
+      />
       {loading ? (
         <p>Carregando...</p>
       ) : (
@@ -27,7 +33,10 @@ function Home({
               Digite algum termo de pesquisa ou escolha uma categoria.
             </p>
           ) : (
-            <ProductCardHome products={ products } />
+            <ProductCardHome
+              refreshCartNumber={ refreshCartNumber }
+              products={ products }
+            />
           )}
         </div>
       )}
