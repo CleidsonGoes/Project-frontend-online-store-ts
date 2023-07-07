@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
 import { addCartItem } from '../services/cartManagement';
+import FormEvaluation from '../components/FormEvaluation';
 import FreeShipping from '../components/FreeShipping';
 
 interface ProductDetailsPageProps {
@@ -89,6 +90,7 @@ function ProductDetails({ refreshCartNumber }: ProductDetailsPageProps) {
           </li>
         ))}
       </ul>
+      <FormEvaluation productId={ product.id } />
     </div>
   );
 }
