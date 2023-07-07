@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 type InputRadio = React.ChangeEvent<HTMLInputElement>;
 type InputButton = React.MouseEvent<HTMLButtonElement>;
+type ProductReview = {
+  email: string,
+  text: string,
+  rating: string,
+};
 
 function FormEvaluation() {
-  const [reviews, setReviews] = useState(['']);
   const [emailValue, setEmailValue] = useState('');
-  const [emailInvalido, setEmailInvalido] = useState(false);
   const [check, setCheck] = useState('');
   const [inputTextArea, setInputTextArea] = useState('');
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
+  const [emailInvalido, setEmailInvalido] = useState(false);
 
   const validationEmail = () => {
     const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -21,7 +26,11 @@ function FormEvaluation() {
   const handleSubmit = (event:InputButton) => {
     event.preventDefault();
 
-    const newReview = [emailValue, inputTextArea, check];
+    const newReview:ProductReview = {
+      email: emailValue,
+      text: inputTextArea,
+      rating: check,
+    };
 
     setReviews([...reviews, newReview]);
 
@@ -32,7 +41,7 @@ function FormEvaluation() {
   const handleRadioChange = (event:InputRadio) => {
     setCheck(event.target.value);
   };
-  const handleTextAreaChange = (event) => {
+  const handleTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputTextArea(event.target.value);
   };
 
@@ -133,17 +142,17 @@ function FormEvaluation() {
               <p data-testid="review-card-email">
                 Email:
                 {' '}
-                {review}
+                {review.email}
               </p>
               <p data-testid="review-card-rating">
                 Rating:
                 {' '}
-                {review}
+                {review.rating}
               </p>
               <p data-testid="review-card-evaluation">
                 Comment:
                 {' '}
-                {review}
+                {review.text}
               </p>
             </div>
           ))
