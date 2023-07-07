@@ -8,12 +8,15 @@ type ProductReview = {
   rating: string;
 };
 
-function FormEvaluation() {
+interface FormDataProps {
+  productId: string;
+}
+
+function FormEvaluation({ productId }: FormDataProps) {
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [emailValue, setEmailValue] = useState('');
   const [check, setCheck] = useState('');
   const [inputTextArea, setInputTextArea] = useState('');
-  const [reviews, setReviews] = useState<ProductReview[]>([]);
-  const [emailInvalido, setEmailInvalido] = useState(false);
   const [formInvalido, setFormInvalido] = useState(false);
 
   const validationEmail = () => {
@@ -22,11 +25,16 @@ function FormEvaluation() {
   };
 
   const saveReviewsToLocalStorage = (updatedReviews: ProductReview[]) => {
-    localStorage.setItem('product-reviews', JSON.stringify(updatedReviews));
+    const recoverLocal = localStorage.getItem(productId);
+    if (!recoverLocal) {
+      localStorage.setItem(productId, JSON.stringify([]));
+    } else {
+      localStorage.setItem(productId, JSON.stringify(updatedReviews));
+    }
   };
 
   useEffect(() => {
-    const savedReviews = localStorage.getItem('product-reviews');
+    const savedReviews = localStorage.getItem(productId);
     if (savedReviews) {
       setReviews(JSON.parse(savedReviews));
     }
@@ -39,24 +47,20 @@ function FormEvaluation() {
   const handleSubmit = (event: InputButton) => {
     event.preventDefault();
 
-    if (emailValue === '' || check === '' || inputTextArea === '') {
+    if (validationEmail() && check) {
+      const newReview: ProductReview = {
+        email: emailValue,
+        text: inputTextArea,
+        rating: check,
+      };
+      setReviews([...reviews, newReview]);
+
+      setEmailValue('');
+      setInputTextArea('');
+      setFormInvalido(false);
+    } else {
       setFormInvalido(true);
-      return;
     }
-
-    if (validationEmail()) setEmailInvalido(true);
-
-    const newReview: ProductReview = {
-      email: emailValue,
-      text: inputTextArea,
-      rating: check,
-    };
-
-    setReviews([...reviews, newReview]);
-
-    setEmailValue('');
-    setInputTextArea('');
-    setFormInvalido(false);
   };
 
   const handleRadioChange = (event: InputRadio) => {
@@ -123,19 +127,15 @@ function FormEvaluation() {
         </label>
       </form>
       {formInvalido && (
-        <h3 data-testid="error-msg">Campos obrigatórios não preenchidos</h3>
-      )}
-      {!emailInvalido && !check ? (
         <h3 data-testid="error-msg">Campos inválidos</h3>
-      ) : (
-        reviews.map((review, index) => (
-          <div key={ index }>
-            <p data-testid="review-card-email">{`Email: ${review.email}`}</p>
-            <p data-testid="review-card-rating">{`Rating: ${review.rating}`}</p>
-            <p data-testid="review-card-evaluation">{`Comment: ${review.text}`}</p>
-          </div>
-        ))
       )}
+      { reviews.map((review, index) => (
+        <div key={ index }>
+          <p data-testid="review-card-email">{review.email}</p>
+          <p data-testid="review-card-rating">{review.rating}</p>
+          <p data-testid="review-card-evaluation">{review.text}</p>
+        </div>
+      ))}
     </>
   );
 }

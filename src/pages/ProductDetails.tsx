@@ -90,7 +90,7 @@ function ProductDetails({ refreshCartNumber }: ProductDetailsPageProps) {
           </li>
         ))}
       </ul>
-      <FormEvaluation />
+      <FormEvaluation productId={ product.id } />
     </div>
   );
 }
