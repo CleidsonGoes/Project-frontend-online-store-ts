@@ -1,14 +1,17 @@
 import { NavLink, Outlet } from 'react-router-dom';
+
 import ShoppingCartButton from './ShoppingCartButton';
 import SearchBar from './SearchBar';
-import { AppMasterProps } from '../services/types';
+
+import { LayoutProps } from '../services/types';
 
 function Layout({
   searchTerm,
   setSearchTerm,
   setLoading,
   setProducts,
-}: AppMasterProps) {
+  cartQuantity,
+}: LayoutProps) {
   return (
     <div>
       <header>
@@ -20,7 +23,7 @@ function Layout({
         />
         <nav>
           <NavLink to="/">Home</NavLink>
-          <ShoppingCartButton />
+          <ShoppingCartButton cartQuantity={ cartQuantity } />
         </nav>
       </header>
       <main>

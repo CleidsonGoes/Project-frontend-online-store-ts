@@ -1,13 +1,13 @@
 import { FormEvent, ChangeEvent } from 'react';
 import { getProductsFromCategoryAndQuery } from '../services/api';
-import { AppMasterProps } from '../services/types';
+import { SearchBarProps } from '../services/types';
 
 function SearchBar({
   searchTerm,
   setSearchTerm,
   setLoading,
   setProducts,
-}: AppMasterProps) {
+}: SearchBarProps) {
   const handleSearch = async (event: FormEvent) => {
     event.preventDefault();
 
