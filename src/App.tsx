@@ -8,6 +8,7 @@ import ShoppingCartPage from './pages/ShoppingCartPage';
 import ProductDetails from './pages/ProductDetails';
 import { Product } from './services/types';
 import { recoverCartQuantity } from './services/cartManagement';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -60,6 +61,11 @@ function App() {
           />
         </Route>
         <Route path="/*" element={ <NotFound /> } />
+        <Route path="checkout" element={ <CheckoutPage /> } />
+        <Route
+          path="product/:id"
+          element={ <ProductDetails refreshCartNumber={ setRefreshCart } /> }
+        />
       </Routes>
     </div>
   );

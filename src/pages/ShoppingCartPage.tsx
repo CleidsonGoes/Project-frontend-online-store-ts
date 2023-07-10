@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { recoverLocalStorage } from '../services/cartManagement';
-import ProductCardCart from '../components/ProductCardCart';
 import { Product } from '../services/types';
+import ProductCardCart from '../components/ProductCardCart';
 
 interface ShoppingCartPageProps {
   refreshCartNumber: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +30,9 @@ function ShoppingCartPage({ refreshCartNumber }: ShoppingCartPageProps) {
           quantityUpdate={ quantityUpdate }
         />
       )}
+      <Link to="/checkout" data-testid="checkout-products">
+        Finalizar Compra
+      </Link>
     </div>
   );
 }
