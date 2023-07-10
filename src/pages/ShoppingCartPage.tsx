@@ -4,7 +4,11 @@ import { recoverLocalStorage } from '../services/cartManagement';
 import { Product } from '../services/types';
 import ProductCardCart from '../components/ProductCardCart';
 
-function ShoppingCartPage() {
+interface ShoppingCartPageProps {
+  refreshCartNumber: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function ShoppingCartPage({ refreshCartNumber }: ShoppingCartPageProps) {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [quantityUpdate, setQuantityUpdate] = useState(true);
 
@@ -20,6 +24,7 @@ function ShoppingCartPage() {
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       ) : (
         <ProductCardCart
+          refreshCartNumber={ refreshCartNumber }
           cartItems={ cartItems }
           setQuantityUpdate={ setQuantityUpdate }
           quantityUpdate={ quantityUpdate }

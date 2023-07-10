@@ -62,7 +62,10 @@ function App() {
         </Route>
         <Route path="/*" element={ <NotFound /> } />
         <Route path="checkout" element={ <CheckoutPage /> } />
-        <Route path="product/:id" element={ <ProductDetails /> } />
+        <Route
+          path="product/:id"
+          element={ <ProductDetails refreshCartNumber={ setRefreshCart } /> }
+        />
       </Routes>
     </div>
   );
