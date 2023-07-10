@@ -1,14 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { recoverLocalStorage } from '../services/cartManagement';
-import ProductCardCart from '../components/ProductCardCart';
 import { Product } from '../services/types';
+import ProductCardCart from '../components/ProductCardCart';
 
-interface ShoppingCartPageProps {
-  refreshCartNumber: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function ShoppingCartPage({ refreshCartNumber }: ShoppingCartPageProps) {
+function ShoppingCartPage() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [quantityUpdate, setQuantityUpdate] = useState(true);
 
@@ -24,12 +20,14 @@ function ShoppingCartPage({ refreshCartNumber }: ShoppingCartPageProps) {
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       ) : (
         <ProductCardCart
-          refreshCartNumber={ refreshCartNumber }
           cartItems={ cartItems }
           setQuantityUpdate={ setQuantityUpdate }
           quantityUpdate={ quantityUpdate }
         />
       )}
+      <Link to="/checkout" data-testid="checkout-products">
+        Finalizar Compra
+      </Link>
     </div>
   );
 }
